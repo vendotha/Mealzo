@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mealer Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* White background */
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 2px solid #ddd;
+        }
+        .logo-img {
+            height: 50px;
+        }
+        .profile-dropdown {
+            position: relative;
+        }
+        .dropdown-button {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            color: black;
+            text-decoration: none;
+            background-color: white;
+        }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        .profile-dropdown:hover .dropdown-content {
+            display: block;
+        }
+        main {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .dashboard h1 {
+            color: #333;
+        }
+        .dashboard section {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .section-content p {
+            margin: 5px 0;
+        }
+        .orders ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .orders li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'main_page' %}">
+                <img src="/static/images/mealzo_logo.png" alt="Mealzo Logo" class="logo-img">
+            </a>
+            <div class="profile-dropdown">
+                <button class="dropdown-button">Profile</button>
+                <div class="dropdown-content">
+                    <a href="{% url 'mealer_profile' %}">Profile</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard">
+            <h1>Welcome to Your Mealer Dashboard</h1>
+
+            <!-- Orders Served Today -->
+            <section>
+                <h2 class="section-title">Orders Served Today:</h2>
+                <div class="section-content">
+                    <p>Total Orders Served: 10</p>
+                </div>
+            </section>
+
+            <!-- Earnings Today -->
+            <section>
+                <h2 class="section-title">Earnings Today:</h2>
+                <div class="section-content">
+                    <p>Total Earnings: ₹2400</p>
+                </div>
+            </section>
+
+            <!-- Active Order Details -->
+            <section>
+                <h2 class="section-title">Active Order Details:</h2>
+                <div class="section-content">
+                    <p><strong>Customer Name:</strong> Bhuvan</p>
+                    <p><strong>Order Item Names:</strong> Chicken Biryani and Paneer Butter Masala</p>
+                    <p><strong>Price:</strong> ₹550</p>
+                    <p><strong>Status:</strong> Cooking</p>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section class="orders">
+                <h2>Your Orders:</h2>
+                <ul>
+                    {% for order in orders %}
+                        <li>
+                            <strong>Order #{{ order.id }}</strong><br>
+                            Date: {{ order.created_at }}<br>
+                            Status: {{ order.status }}<br>
+                            {% if order.delivery_partner %}
+                                Delivery Partner: {{ order.delivery_partner.user.username }}
+                            {% endif %}
+                        </li>
+                    {% empty %}
+                        <p>You have no orders yet.</p>
+                    {% endfor %}
+                </ul>
+            </section>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Mealzo. All rights reserved.</p>
+    </footer>
+</body>
+</html>

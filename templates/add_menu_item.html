@@ -1,0 +1,95 @@
+{% extends 'restaurant_base.html' %}
+{% load static %}
+{% block content %}
+    <div class="menu-management-container">
+        <h1>Add Menu Item</h1>
+
+        <!-- Form for Adding Menu Item -->
+        <div id="menu-form-container">
+            <h3>Add New Menu Item</h3>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'add_menu_item' %}">
+                {% csrf_token %}
+
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="{{ menu_form.name.id_for_label }}">Menu Item Name</label>
+                    {{ menu_form.name }}
+                    {% if menu_form.name.errors %}
+                        <div class="errorlist">{{ menu_form.name.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Image Field -->
+                <div class="form-group">
+                    <label for="{{ menu_form.image.id_for_label }}">Image</label>
+                    {{ menu_form.image }}
+                    {% if menu_form.image.errors %}
+                        <div class="errorlist">{{ menu_form.image.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Price Field -->
+                <div class="form-group">
+                    <label for="{{ menu_form.price.id_for_label }}">Price</label>
+                    {{ menu_form.price }}
+                    {% if menu_form.price.errors %}
+                        <div class="errorlist">{{ menu_form.price.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Quantity Field -->
+                <div class="form-group">
+                    <label for="{{ menu_form.quantity.id_for_label }}">Quantity</label>
+                    {{ menu_form.quantity }}
+                    {% if menu_form.quantity.errors %}
+                        <div class="errorlist">{{ menu_form.quantity.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Raw Materials Field -->
+                <div class="form-group">
+                    <label for="{{ menu_form.raw_materials.id_for_label }}">Raw Materials</label>
+                    {{ menu_form.raw_materials }}
+                    {% if menu_form.raw_materials.errors %}
+                        <div class="errorlist">{{ menu_form.raw_materials.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Item</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        /* Add Menu Item Styles */
+        .menu-management-container {
+            margin: 20px;
+        }
+
+        .menu-form-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .menu-form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-form-container input, .menu-form-container select, .menu-form-container textarea {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .errorlist {
+            color: red;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+    </style>
+{% endblock %}

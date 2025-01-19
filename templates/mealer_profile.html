@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mealer Profile</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #fff;
+        }
+
+        h1, h2 {
+            font-family: 'Roboto', sans-serif;
+            color: #fff;
+        }
+
+        a {
+            color: #ff7e5f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        /* Profile Section */
+        main {
+            padding: 40px;
+            max-width: 900px;
+            margin: 40px auto;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        section {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        section p {
+            font-size: 16px;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        section p strong {
+            color: #feb47b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+        }
+
+        /* Hover and Transition Effects */
+        header a {
+            transition: color 0.3s ease;
+        }
+
+        header a:hover {
+            color: #feb47b;
+        }
+
+        section p {
+            transition: color 0.3s ease;
+        }
+
+        section p:hover {
+            color: #feb47b;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Welcome, {{ mealer.name }}</h1>
+        <a href="{% url 'logout' %}">Logout</a>
+    </header>
+
+    <main>
+        <section>
+            <h2>Mealer Profile</h2>
+            <p><strong>Name:</strong> {{ mealer.name }}</p>
+            <p><strong>Email:</strong> {{ mealer.email }}</p>
+            <p><strong>Mobile Number:</strong> {{ mealer.mobile_number }}</p>
+            <p><strong>Address:</strong> {{ mealer.address }}</p>
+            <p><strong>Date of Birth:</strong> {{ mealer.date_of_birth }}</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mealzo. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

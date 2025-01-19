@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .logo-img {
+            height: 50px;
+        }
+        .profile-dropdown {
+            position: relative;
+        }
+        .dropdown-button {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            color: black;
+            text-decoration: none;
+            background-color: white;
+        }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        .profile-dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .profile-info {
+            margin: 20px 0;
+        }
+        .profile-info p {
+            margin: 8px 0;
+        }
+        .label {
+            font-weight: bold;
+        }
+        .back-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-btn a {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<header>
+    <nav>
+        <a href="{% url 'main_page' %}">
+            <img src="/static/images/mealzo_logo.png" alt="Mealzo Logo" class="logo-img">
+        </a>
+        <div class="profile-dropdown">
+            <button class="dropdown-button">Profile</button>
+            <div class="dropdown-content">
+                <a href="{% url 'customer_profile' %}">Profile</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Profile Page Content -->
+<div class="container">
+    <h2>Customer Profile</h2>
+    {% if customer %}
+        <div class="profile-info">
+            <p><span class="label">Name:</span> {{ customer.name }}</p>
+            <p><span class="label">Email:</span> {{ customer.email }}</p>
+            <p><span class="label">Mobile Number:</span> {{ customer.mobile_number }}</p>
+            <p><span class="label">Address:</span> {{ customer.house_number }}, {{ customer.street_number }}, {{ customer.locality }}, {{ customer.city }}, {{ customer.state }} - {{ customer.pin_code }}</p>
+            <p><span class="label">Landmark:</span> {{ customer.landmark }}</p>
+            <p><span class="label">Additional Instructions:</span> {{ customer.additional_instructions }}</p>
+        </div>
+    {% else %}
+        <p>Customer information not found.</p>
+    {% endif %}
+
+    <div class="back-btn">
+        <a href="{% url 'customer_home' %}">Back to Home</a>
+    </div>
+</div>
+
+</body>
+</html>

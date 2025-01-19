@@ -1,0 +1,88 @@
+{% extends 'restaurant_base.html' %}
+
+{% block content %}
+    <div class="inventory-management-container">
+        <h1>Manage Inventory</h1>
+
+        <!-- Button for Redirecting to Add Inventory Item Page -->
+        <div id="add-item-btn-container">
+            <a href="{% url 'add_inventory_item' %}" class="btn btn-success">Add Inventory Item</a>
+        </div>
+
+        <!-- Existing Inventory Items -->
+        <div class="inventory-items-container">
+            <h3>Existing Inventory Items</h3>
+            <div id="inventory-items-list">
+                {% for item in inventory_items %}
+                    <div class="inventory-item" data-id="{{ item.id }}">
+                        <div class="inventory-item-details">
+                            <h4><strong>Name:</strong> {{ item.name }}</h4>
+                            <p><strong>Stock:</strong> {{ item.quantity }} Kg</p>
+                            <p><strong>Unit Price:</strong> ₹{{ item.unit_price }}</p>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle Edit Button Click
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const itemId = this.getAttribute('data-id');
+                window.location.href = `/edit-inventory-item/${itemId}/`;  // Redirect to the edit page
+            });
+        });
+
+        // Handle Delete Button Click
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const itemId = this.getAttribute('data-id');
+                if (confirm('Are you sure you want to delete this item?')) {
+                    fetch(`/delete-inventory-item/${itemId}/`, { method: 'GET' })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                location.reload();  // Reload the page to update the list
+                            }
+                        });
+                }
+            });
+        });
+    </script>
+
+    <style>
+        /* Inventory Management Styles */
+        .inventory-management-container {
+            margin: 20px;
+        }
+
+        .inventory-items-container {
+            margin-top: 20px;
+        }
+
+        .inventory-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .inventory-item-img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .inventory-item-actions button {
+            margin-right: 10px;
+        }
+
+        #add-item-btn-container {
+            margin-bottom: 20px;
+        }
+    </style>
+{% endblock %}

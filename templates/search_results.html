@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ff6347;
+            color: white;
+        }
+        .logo-img {
+            height: 50px;
+            margin-right: 20px;
+        }
+        .search-bar {
+            flex-grow: 1;
+        }
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        .results-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+        .restaurant-card {
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .restaurant-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .restaurant-info {
+            padding: 10px;
+            text-align: center;
+        }
+        .restaurant-info h3 {
+            margin: 10px 0;
+        }
+        .restaurant-info p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'main_page' %}">
+            <img src="/static/images/mealzo_logo.png" alt="Mealzo Logo" class="logo-img">
+        </a>
+        <form action="{% url 'search_restaurants' %}" method="get" class="search-bar">
+            <input type="text" name="query" placeholder="Search for restaurants" required>
+        </form>
+    </header>
+    <main>
+        <div class="results-container">
+            {% for restaurant in restaurants %}
+            <div class="restaurant-card">
+                <a href="{% url 'search_menu' %}?restaurant_id={{ restaurant.id }}">
+                    <!-- Check if the restaurant has a photo, and display it -->
+                        <img src="{{ restaurant.restaurant_photo.url }}" alt="{{ restaurant.restaurant_name }}">
+                </a>
+                <div class="restaurant-info">
+                    <h3>{{ restaurant.restaurant_name }}</h3>
+                    <p>{{ restaurant.cuisine_type }}</p>
+                    <p>{{ restaurant.address }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <p>No restaurants found.</p>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

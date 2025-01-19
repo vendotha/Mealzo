@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo-img {
+            height: 40px;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .dropdown-button {
+            background-color: #ff6347;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-button:hover {
+            background-color: #e5533d;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .profile-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Container Styling */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        h2 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            color: #444;
+        }
+
+        /* Price Details Section */
+        .price-details p {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .price-details p span {
+            color: #444;
+            font-weight: 500;
+        }
+
+        .total-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff4500;
+            margin: 20px 0;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        /* Payment Button */
+        button {
+            background-color: #ff6347;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e5533d;
+        }
+
+        /* Footer (Optional) */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            nav {
+                padding: 10px 3%;
+            }
+
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="{% url 'main_page' %}">
+            <img src="/static/images/mealzo_logo.png" alt="Mealzo Logo" class="logo-img">
+        </a>
+        <div class="profile-dropdown">
+            <button class="dropdown-button">Profile</button>
+            <div class="dropdown-content">
+                <a href="{% url 'customer_profile' %}">Profile</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Section -->
+    <div class="container">
+        <h2>Checkout</h2>
+        <div class="price-details">
+            <p>Subtotal: <span>₹500</span></p>
+            <p>Delivery Charges: <span>₹50</span></p>
+            <p class="total-price">Total: <span>₹550</span></p>
+        </div>
+        <button id="payBtn">Make Payment</button>
+    </div>
+
+    <footer>
+        © 2024 Mealzo. All rights reserved.
+    </footer>
+
+    <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe("{{ stripe_public_key }}");
+        const payBtn = document.getElementById("payBtn");
+
+        function getCSRFToken() {
+            let cookieValue = null;
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith("csrftoken=")) {
+                    cookieValue = cookie.substring("csrftoken=".length, cookie.length);
+                    break;
+                }
+            }
+            return cookieValue;
+        }
+
+        payBtn.addEventListener("click", async () => {
+            const csrfToken = getCSRFToken();
+            const response = await fetch("{% url 'create_checkout_session' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+            });
+
+            const session = await response.json();
+
+            if (session.error) {
+                alert(session.error);
+                return;
+            }
+
+            const result = await stripe.redirectToCheckout({ sessionId: session.id });
+            if (result.error) {
+                alert(result.error.message);
+            }
+        });
+    </script>
+</body>
+</html>

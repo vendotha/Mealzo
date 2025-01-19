@@ -1,0 +1,81 @@
+{% extends 'restaurant_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="dashboard-stats">
+    <!-- Orders Served Today -->
+    <div class="stat-box">
+        <h3>Orders Served Today</h3>
+        <p id="orders-served">{{ orders_served }}</p>
+    </div>
+
+    <!-- Total Income Today -->
+    <div class="stat-box">
+        <h3>Total Income Today</h3>
+        <p id="income-today">₹{{ total_income_today }}</p>
+    </div>
+
+    <!-- Recent Order Requests -->
+    <div class="stat-box">
+        <h3>Recent Order Requests</h3>
+        <div id="order-requests">
+            <div class="order-request" id="order-chicken-biryani">
+                <img src="{% static 'images/chicken-biryani.png' %}" alt="Chicken Biryani">
+                <div class="order-details">
+                    <p><strong>Food Name:</strong> Chicken Biryani</p>
+                    <p><strong>Quantity:</strong> 1</p>
+                    <p><strong>Price:</strong> ₹250</p>
+                </div>
+                <div class="order-actions">
+                    <button class="accept-btn" onclick="handleOrder('Chicken Biryani', 1, 'Accepted')">Accept</button>
+                    <button class="reject-btn" onclick="handleOrder('Chicken Biryani', 1, 'Rejected')">Reject</button>
+                </div>
+            </div>
+
+            <div class="order-request" id="order-paneer-butter-masala">
+                <img src="{% static 'images/paneer-butter-masala.png' %}" alt="Paneer Butter Masala">
+                <div class="order-details">
+                    <p><strong>Food Name:</strong> Paneer Butter Masala</p>
+                    <p><strong>Quantity:</strong> 1</p>
+                    <p><strong>Price:</strong> ₹200</p>
+                </div>
+                <div class="order-actions">
+                    <button class="accept-btn" onclick="handleOrder('Paneer Butter Masala', 1, 'Accepted')">Accept</button>
+                    <button class="reject-btn" onclick="handleOrder('Paneer Butter Masala', 1, 'Rejected')">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function handleOrder(itemName, quantity, status) {
+        fetch('/process-order/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                'item_name': itemName,
+                'quantity': quantity,
+                'status': status
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (status === 'Accepted') {
+                    alert(`${itemName} accepted. Menu and raw materials updated.`);
+                } else {
+                    alert(`${itemName} rejected.`);
+                }
+                location.reload();
+            } else {
+                alert('Error processing the order.');
+            }
+        });
+    }
+</script>
+
+{% endblock %}

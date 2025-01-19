@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mealzo</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            background-image: url('static/images/bgimg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .logo-img {
+            height: 50px;
+        }
+        .nav-buttons button {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .nav-buttons button:hover {
+            background-color: #e5533d;
+        }
+        .search-section {
+            text-align: center;
+            margin-top: 150px;
+            color: white;
+        }
+        .search-section input {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            border: none;
+            border-radius: 5px;
+        }
+        .search-button {
+            padding: 10px 20px;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-button:hover {
+            background-color: #e5533d;
+        }
+
+        /* Styling for the Recruitment Section */
+        .recruitment-section {
+            margin-top: 100px;  /* Push the section down */
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .recruitment-card {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 250px;
+            margin: 20px;
+        }
+        .section-icon {
+            width: 80px;
+            height: 80px;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 15px;
+            background-color: #ff6347;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            background-color: #e5533d;
+        }
+        .gray-button {
+            background-color: gray;
+        }
+        .gray-button:hover {
+            background-color: #666;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'main_page' %}">
+                <img src="/static/images/mealzo_logo.png" alt="Mealzo Logo" class="logo-img">
+            </a>
+            <div class="nav-buttons">
+                <button onclick="window.location.href='/login/'">Login</button>
+                <button onclick="window.location.href='{% url 'customer_signup' %}'">Signup</button>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="search-section">
+            <h1>Find Your Meal On The Go</h1>
+            <form action="{% url 'search_restaurants' %}" method="get">
+                <input type="text" name="query" placeholder="Enter the restaurant name" required>
+                <button class="search-button" type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- Recruitment Section -->
+        <div class="recruitment-section">
+            <!-- Become a Mealer Section -->
+            <div class="recruitment-card mealer-card">
+                <img src="/static/images/scooter-icon.png" alt="Scooter Icon" class="section-icon">
+                <h2>Become a Mealer</h2>
+                <p>Join us as a delivery driver and start earning today!</p>
+                <a href="{% url 'mealer_signup' %}" class="cta-button">Start Earning</a>
+                <a href="{% url 'mealer_login' %}" class="cta-button gray-button">Login as Mealer</a>
+            </div>
+
+            <!-- Become a Partner Section -->
+            <div class="recruitment-card partner-card">
+                <img src="/static/images/restaurant-icon.png" alt="Restaurant Icon" class="section-icon">
+                <h2>Become a Partner</h2>
+                <p>Partner with us and grow your restaurant business!</p>
+                <a href="{% url 'restaurant_signup' %}" class="cta-button">Signup for MealzoPartner</a>
+                <a href="{% url 'restaurant_login' %}" class="cta-button gray-button">Login as Mealzo Partner</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>©2024 Mealzo</p>
+    </footer>
+</body>
+</html>

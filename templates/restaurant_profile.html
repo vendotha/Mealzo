@@ -1,0 +1,43 @@
+{% extends 'restaurant_base.html' %}
+{% load static %}
+{% block title %}Your Profile - Mealzo{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="profile-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Your Profile</h2>
+        <form method="POST" action="{% url 'delete_restaurant' restaurant.id %}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Account</button>
+        </form>
+    </div>
+
+    <div class="profile-info">
+        {% if restaurant.restaurant_photo %}
+            <img src="{{ restaurant.restaurant_photo.url }}" alt="Restaurant Logo" class="profile-logo">
+        {% else %}
+            <img src="{% static 'images/default-restaurant.jpg' %}" alt="Default Restaurant Logo" class="profile-logo">
+        {% endif %}
+
+        <div class="profile-details">
+            <p><strong>Restaurant Name:</strong> {{ restaurant.restaurant_name }}</p>
+            <p><strong>Email:</strong> {{ restaurant.email }}</p>
+            <p><strong>Phone Number:</strong> {{ restaurant.contact_no }}</p>
+            <p><strong>Address:</strong> {{ restaurant.address }}</p>
+            <p><strong>Cuisine Type:</strong> {{ restaurant.cuisine_type }}</p>
+            <p><strong>Opening Hours:</strong> {{ restaurant.opening_hours }}</p>
+            <p><strong>PAN Card:</strong>
+                {% if restaurant.pan_card %}
+                    <a href="{{ restaurant.pan_card.url }}" target="_blank">View PAN Card</a>
+                {% else %}
+                    Not Provided
+                {% endif %}
+            </p>
+            <p><strong>Account Number:</strong> {{ restaurant.account_number }}</p>
+            <p><strong>Account Name:</strong> {{ restaurant.account_name }}</p>
+            <p><strong>IFSC Code:</strong> {{ restaurant.ifsc_code }}</p>
+            <p><strong>Branch:</strong> {{ restaurant.branch }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

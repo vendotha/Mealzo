@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ restaurant.restaurant_name }} - Menu</title>
+    <style>
+        /* Resetting basic styles */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: #ff5722;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        /* Restaurant details section */
+        .restaurant-details {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .restaurant-details h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #ff5722;
+        }
+
+        .restaurant-details p {
+            margin: 5px 0;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        /* Menu grid styles */
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px;
+        }
+
+        .menu-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .menu-item h3 {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .menu-item p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #666;
+        }
+
+        .menu-item .price {
+            font-size: 1.1em;
+            color: #ff5722;
+            font-weight: bold;
+        }
+
+        .menu-item .quantity-btn {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .quantity-btn button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-btn button:hover {
+            background-color: #e64a19;
+        }
+
+        /* Cart Summary Section */
+        .cart-summary {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-summary .cart-info {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .cart-summary .checkout-btn {
+            background-color: #ff5722;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .cart-summary .checkout-btn:hover {
+            background-color: #e64a19;
+        }
+
+        /* Footer styles */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        {{ restaurant.restaurant_name }} - Menu
+    </div>
+
+    <!-- Restaurant Details -->
+    <div class="restaurant-details">
+        <h1>{{ restaurant.restaurant_name }}</h1>
+        <p>{{ restaurant.cuisine_type }}</p>
+        <p>{{ restaurant.address }}</p>
+        <p>Contact: {{ restaurant.contact_no }}</p>
+    </div>
+
+    <!-- Menu Items (Dynamic Rendering) -->
+    <div class="menu-container">
+        {% for item in menu_items %}
+            <!-- Menu Item Card -->
+            <div class="menu-item">
+                <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                <h3>{{ item.name }}</h3>
+                <p class="price">₹{{ item.price }}</p>
+                <p>Available Quantity: {{ item.quantity }}</p>
+                <!-- Quantity Buttons -->
+
+                <!-- Add to Cart Link -->
+                <a href="{% url 'add_to_cart' item.id %}">Add to Cart</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Cart Summary -->
+
+    <script>
+        let cart = {};
+
+        function updateCart(itemId, change) {
+            if (!cart[itemId]) cart[itemId] = 0;
+
+            cart[itemId] += change;
+
+            // Prevent negative values
+            if (cart[itemId] < 0) cart[itemId] = 0;
+
+            updateUI();
+        }
+
+        function updateUI() {
+            let totalItems = 0;
+            let subtotal = 0;
+
+            {% for item in menu_items %}
+                const itemId = "{{ item.id }}";
+                const itemPrice = {{ item.price }};
+                const itemQuantity = cart[itemId] || 0;
+
+                document.getElementById(item-${itemId}-quantity).innerText = itemQuantity;
+                totalItems += itemQuantity;
+                subtotal += itemQuantity * itemPrice;
+            {% endfor %}
+
+            document.getElementById('total-items').innerText = totalItems;
+            document.getElementById('subtotal').innerText = subtotal;
+        }
+
+        function redirectToCart() {
+            window.location.href = "{% url 'cart_view' %}"; // Update this to match your cart URL
+        }
+    </script>
+</body>
+</html>

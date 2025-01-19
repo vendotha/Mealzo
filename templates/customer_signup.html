@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .signup-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 1000px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .form-group {
+            flex: 1 1 45%;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #ff7043;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #e64a19;
+        }
+        .error, .success {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+        @media (max-width: 768px) {
+            .form-group {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <h1>Customer Signup</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="{% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form.name.label }} {{ form.name }}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label }} {{ form.email }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form.password.label }} {{ form.password }}
+                    <input type="checkbox" id="show-password" onclick="togglePassword()"> Show Password
+                </div>
+                <div class="form-group">
+                    {{ form.mobile_number.label }} {{ form.mobile_number }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form.house_number.label }} {{ form.house_number }}
+                </div>
+                <div class="form-group">
+                    {{ form.street_number.label }} {{ form.street_number }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form.locality.label }} {{ form.locality }}
+                </div>
+                <div class="form-group">
+                    {{ form.city.label }} {{ form.city }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form.state.label }} {{ form.state }}
+                </div>
+                <div class="form-group">
+                    {{ form.pin_code.label }} {{ form.pin_code }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form.landmark.label }} {{ form.landmark }}
+                </div>
+                <div class="form-group">
+                    {{ form.additional_instructions.label }} {{ form.additional_instructions }}
+                </div>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to toggle the password visibility
+        function togglePassword() {
+            var passwordField = document.querySelector('input[name="password"]');
+            var checkBox = document.getElementById('show-password');
+            if (checkBox.checked) {
+                passwordField.type = 'text';  // Show password
+            } else {
+                passwordField.type = 'password';  // Hide password
+            }
+        }
+    </script>
+
+</body>
+</html>

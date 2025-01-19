@@ -1,0 +1,183 @@
+/* Additional Styles for Gray Buttons in Recruitment Section */
+.gray-button {
+    padding: 10px 20px;
+    background-color: gray;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px; /* Add some space between the buttons */
+}
+
+.gray-button:hover {
+    background-color: darkgray;
+}
+
+/* Base Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header nav {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 1em;
+    position: relative; /* Ensures centering with flexibility */
+}
+
+.logo-container {
+    position: absolute; /* Center the logo */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.logo-img {
+    height: 70px; /* Slightly larger logo */
+    width: auto;  /* Maintain aspect ratio */
+}
+
+.nav-buttons {
+    margin-left: auto; /* Push buttons to the far right */
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
+
+.nav-buttons button {
+    padding: 0.5em 1em;
+    border: none;
+    cursor: pointer;
+}
+
+.login-button {
+    background-color: orange;
+    color: white;
+}
+
+.signup-button {
+    background-color: black;
+    color: white;
+}
+
+/* Search Section */
+.search-section {
+    text-align: center;
+    margin-top: 50px;
+    padding: 0 15px;
+}
+
+.search-section h1 {
+    font-size: 2.5em;
+    color: black;
+}
+
+.search-section input {
+    padding: 0.5em;
+    width: 300px;
+    max-width: 100%; /* Ensure the input box fits smaller screens */
+}
+
+.search-section .search-button {
+    padding: 0.5em 1em;
+    background-color: orange;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Footer Styling */
+footer {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Recruitment Section */
+.recruitment-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-top: 50px;
+    padding: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.recruitment-card {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 45%;
+    max-width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recruitment-card img {
+    width: 50px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.recruitment-card h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.recruitment-card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.cta-button {
+    padding: 10px 20px;
+    background-color: #ff6600;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.cta-button:hover {
+    background-color: #e65c00;
+}
+
+.recruitment-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .recruitment-card {
+        width: 100%;
+    }
+
+    .search-section h1 {
+        font-size: 2em;
+    }
+
+    .nav-buttons button {
+        padding: 0.5em 0.8em;
+    }
+}
+
+.search-section h1 {
+    font-family: 'Poppins', sans-serif; /* Replace 'Poppins' with your chosen font */
+    font-size: 2.5em;
+    color: black;
+}

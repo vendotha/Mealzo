@@ -1,0 +1,77 @@
+{% extends 'restaurant_base.html' %}
+{% load static %}
+{% block content %}
+    <div class="inventory-management-container">
+        <h1>Add Inventory Item</h1>
+
+        <!-- Form for Adding Inventory Item -->
+        <div id="inventory-form-container">
+            <h3>Add New Inventory Item</h3>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'add_inventory_item' %}">
+                {% csrf_token %}
+
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="{{ inventory_form.name.id_for_label }}">Inventory Item Name</label>
+                    {{ inventory_form.name }}
+                    {% if inventory_form.name.errors %}
+                        <div class="errorlist">{{ inventory_form.name.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Quantity Field -->
+                <div class="form-group">
+                    <label for="{{ inventory_form.quantity.id_for_label }}">Quantity in Kgs</label>
+                    {{ inventory_form.quantity }}
+                    {% if inventory_form.quantity.errors %}
+                        <div class="errorlist">{{ inventory_form.quantity.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Unit Price Field -->
+                <div class="form-group">
+                    <label for="{{ inventory_form.unit_price.id_for_label }}">Unit Price (₹)</label>
+                    {{ inventory_form.unit_price }}
+                    {% if inventory_form.unit_price.errors %}
+                        <div class="errorlist">{{ inventory_form.unit_price.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Item</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        /* Add Inventory Item Styles */
+        .inventory-management-container {
+            margin: 20px;
+        }
+
+        .inventory-form-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .inventory-form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .inventory-form-container input, .inventory-form-container select, .inventory-form-container textarea {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .errorlist {
+            color: red;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+    </style>
+{% endblock %}
