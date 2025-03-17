@@ -82,7 +82,7 @@ Welcome to **Mealzo**, a full-featured AI-powered food delivery platform built w
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/mealzo.git
+   git clone https://github.com/vendotha/mealzo.git
    cd mealzo
    ```
 
